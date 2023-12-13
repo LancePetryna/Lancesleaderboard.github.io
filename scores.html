@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score list</title>
+
+    <style>
+        table{
+            margin: 20px auto;
+            font-size: large;
+        }
+        td, th{
+            border: 1px solid black;
+        }
+        th{
+            background-color: rgb(95, 95, 224);
+            color: white;
+        }
+        tr:nth-child(even){
+            background-color: rgb(199, 199, 227);
+        }
+        tr:nth-child(odd){
+            background-color: rgb(187, 187, 205);
+        }
+        button{
+            background-color: rgb(95, 95, 224);
+            color: white;
+            font-size: larger;
+        }   
+    </style>
+</head>
+<body style="background-color: ghostwhite;">
+
+    <div id="header">
+
+    </div>
+
+    <div id="scores">
+        
+    </div>
+
+    <div id="newScoreButton" style="text-align: center;">
+        
+    </div>
+    
+    <script>
+        //grabs value of query
+        var search = window.location.search;
+        var mainQuery = new URLSearchParams(search);
+        var gameBoard = mainQuery.get('id');
+
+        var scoreList = document.getElementById('scores');
+        var headerName = document.getElementById('header');
+
+        //adds functionality to score button
+        var scoreButton = document.getElementById('newScoreButton');
+        scoreButton.innerHTML += `<button onclick="window.location.href='addScore.html?id=${gameBoard}'">New Entry</button>`;
+
+        scoreList.innerHTML = "";
+        var index = 2; //to test table with
+        var scoreTags = `<table><tr><th>Player</th><th>Score</th><th>Time</th></tr>`;
+        window.onload = function(){
+        fetch(`https://lime-faithful-hippo.cyclic.app/api/leaderBoard/${gameBoard}`)
+            .then(function(response){
+                return response.json();
+            })
+            .then((data) =>{
+                console.log(data);
+
+                headerName.innerHTML += `<h2 style="text-align: center;"> ${data.GameName} LeaderBoard</h2>`;
+
+                for (ii = 0; ii < data.Leaderboard.length; ii++)
+                {
+                    scoreTags += `<tr>`;
+                    scoreTags += `<td hidden>${data.Leaderboard[ii].id}}</td>`;
+                    scoreTags += `<td>${data.Leaderboard[ii].Player}</td>`;
+                    scoreTags += `<td>${data.Leaderboard[ii].Score}</td>`;
+                    scoreTags += `<td>${data.Leaderboard[ii].Time}</td>`;
+                    scoreTags += `</tr>`;
+                }
+            })
+            .then(function(){
+                scoreTags += `</table>`;
+                scoreList.innerHTML += scoreTags;
+            });  
+        }
+    </script>
+</body>
+</html>

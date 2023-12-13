@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games List</title>
+
+    <style>
+        table{
+            margin: 20px auto;
+            font-size: large;
+        }
+        td, th{
+            border: 1px solid black;
+        }
+        th{
+            background-color: rgb(95, 95, 224);
+            color: white;
+        }
+        tr:nth-child(even){
+            background-color: rgb(199, 199, 227);
+        }
+        tr:nth-child(odd){
+            background-color: rgb(187, 187, 205);
+        }
+        button{
+            background-color: rgb(95, 95, 224);
+            color: white;
+            font-size: larger;
+        }
+    </style>
+</head>
+<body style="background-color: ghostwhite;">
+    
+    <h2 style="text-align: center;">Games</h2>
+    <div id="read">
+
+    </div>
+
+    <div id="newGameButton" style="text-align: center;">
+        <button onclick="window.location.href='newGame.html'">New Game</button>
+    </div>
+
+    <script>
+        var gameList = document.getElementById('read');
+        gameList.innerHTML = "";
+        var tableTags = "<table><tr><th>Game</th><th>Platform</th></tr>";
+        var index = 2;
+        window.onload = function(){
+        fetch("https://lime-faithful-hippo.cyclic.app/api/games")
+            .then(function(response) {
+                return response.json();
+            })
+            .then((data) =>{
+                console.log(data)
+                data.forEach(element => {
+                    tableTags += `<tr>`;
+                    tableTags += `<td hidden>${index}</td>`;
+                    tableTags += `<td><a href="scores.html?id=${index}">${element.GameName}</a></td>`;
+                    tableTags += `<td>${element.Platform}</td>`;
+                    tableTags += `</tr>`;
+                    index++;
+                });
+            })
+            .then(function(){
+                tableTags += `</table>`;
+                gameList.innerHTML += tableTags;
+            });
+        }
+    </script>
+</body>
+</html>

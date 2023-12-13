@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Score</title>
+
+    <style>
+         table{
+            margin: 20px auto;
+            font-size: large;
+        }
+        #addGameButton{
+            text-align: center;
+        }
+        button{
+            background-color: rgb(95, 95, 224);
+            color: white;
+            font-size: larger;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header">
+        
+    </div>
+
+    <div id="add">
+
+    </div>
+
+    <div id="addScoreButton" style="text-align: center;">
+        <button onclick="submit()"> Submit </button>
+    </div>
+
+    <script>
+        var headerName = document.getElementById("header");
+        var newScore = document.getElementById("add");
+        newScore.innerHTML = `<table><tr><td>Player: </td><td><input type="text" id="player" name="player" autocomplete="on" required></td></tr><tr><td>Score: </td><td><input type="text" id="score" name="score" autocomplete="on" required></td></tr></td></tr><tr><td>Time: </td><td><input type="text" id="time" name="time" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{2}" autocomplete="on" required></td></tr></table>`;
+
+        var playerName = document.getElementById("player");
+        var scoreTotal = document.getElementById("score");
+        var timeTotal = document.getElementById("time");
+
+        //grabs value of query
+        var search = window.location.search;
+        var mainQuery = new URLSearchParams(search);
+        var gameBoard = mainQuery.get('id');
+
+    </script>
+</body>
+</html>

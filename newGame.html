@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Game</title>
+
+    <style>
+        table{
+            margin: 20px auto;
+            font-size: large;
+        }
+        #addGameButton{
+            text-align: center;
+        }
+        button{
+            background-color: rgb(95, 95, 224);
+            color: white;
+            font-size: larger;
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align: center;">Add Game</h2>
+    <div id="add">
+
+    </div>
+
+    <div id="AddGameButton" style="text-align: center;">
+        <button onclick="submit()"> Submit </button>
+    </div>
+    
+    <script>
+        var newGame = document.getElementById('add');
+        newGame.innerHTML = `<table><tr><td>Name: </td><td><input type="text" id="game" name="name" autocomplete="on" required></td></tr><tr><td>Platform: </td><td><input type="text" id="platform" name="platform" autocomplete="on" required></td></tr></table>`;
+
+        function submit()
+        {
+            var gameName = document.getElementById("game");
+            var gamePlatform = document.getElementById("platform");
+            var entry = 
+            {
+                Name : `${gameName}`,
+                Platform : `${gamePlatform}`
+            };
+
+            fetch("https://lime-faithful-hippo.cyclic.app/api/games",
+            {
+                method: "POST",
+                mode: "cors",
+                body: entry,
+                headers: {"Content-type": "application/json; charset=UTF-8"}
+            })
+            .then((response => response.json()))
+            .then(response => {
+                console.log(response.message);
+            })
+            .catch((errorsReturned) => {
+                console.log("Error");
+                console.log(errorsReturned);
+            });
+        }
+        
+    </script>
+</body>
+</html>
